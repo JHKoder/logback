@@ -1,22 +1,41 @@
-plugins {
-    id 'java'
-    id 'org.springframework.boot' version '3.0.2'
-    id 'io.spring.dependency-management' version '1.1.0'
-}
+apply plugin: 'java'
+apply plugin: 'maven-publish'
 
-group = 'github.oineh'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+group = 'com.github.oiNeh'
+version = '0.1.0'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
 }
 
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
 }
+
+allprojects {
+    repositories {
+        jcenter()
+        maven { url "https://jitpack.io" }
+    }
+}
+dependencies {
+    testImplementation 'org.assertj:assertj-core:3.23.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+}
+
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+wrapper {
+    gradleVersion = "7.5.1"
+    distributionType = Wrapper.DistributionType.ALL
 }
